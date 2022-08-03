@@ -10,7 +10,7 @@ import play.libs.ws.WSResponse;
 
 public class SalesforceAPI {
 
-    private static final String API_VERSION = "31.0";
+    private static final String API_VERSION = "54.0";
 
     private static final String BASE_URL = "/services/data/v" + API_VERSION + "/";
 
@@ -24,11 +24,11 @@ public class SalesforceAPI {
                 .setQueryParameter("q", query)
                 .get()
                 .map(new F.Function<WSResponse, JsonNode>() {
-            @Override
-            public JsonNode apply(WSResponse wsResponse) throws Throwable {
-                return wsResponse.asJson();
-            }
-        });
+                    @Override
+                    public JsonNode apply(WSResponse wsResponse) throws Throwable {
+                        return wsResponse.asJson();
+                    }
+                });
     }
 
     public static F.Promise<JsonNode> create(String apiKey, String instanceUrl, String sobject, JsonNode json) {
@@ -43,7 +43,8 @@ public class SalesforceAPI {
                 });
     }
 
-    public static F.Promise<JsonNode> update(String apiKey, String instanceUrl, String sobject, String id, JsonNode json) {
+    public static F.Promise<JsonNode> update(String apiKey, String instanceUrl, String sobject, String id,
+            JsonNode json) {
         return WS.url(instanceUrl + SOBJECTS_URL + sobject + "/" + id)
                 .setHeader("Authorization", "Bearer " + apiKey)
                 .patch(json)

@@ -49,12 +49,14 @@ app.controller('Contacts', function($scope, $resource) {
   };
 
   $scope.saveContact = function() {
+    console.log("saveContact");
     if ($scope.selectedContact instanceof ContactsService) {
       // existing
       $scope.selectedContact.$update(function() {
         $scope.message = "Contact Updated";
         $scope.selectedContact = undefined;
         $scope.gridOptions.selectAll(false);
+        
       },
       function(error) {
         console.error(error);
