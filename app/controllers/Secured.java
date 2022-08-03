@@ -18,8 +18,7 @@ public class Secured extends Security.Authenticator {
     public String getUsername(Http.Context ctx) {
         if ((ctx.session().get(INSTANCE_URL) == null) || (ctx.session().get(TOKEN) == null)) {
             return null;
-        }
-        else {
+        } else {
             return "";
         }
     }
@@ -45,13 +44,13 @@ public class Secured extends Security.Authenticator {
     }
 
     public static String getOauthCallbackUrl(Http.Request request) {
-        String url = routes.Secured.oauthCallback(null).absoluteURL(Http.Context.current().request(), isSecure(request));
+        String url = routes.Secured.oauthCallback(null).absoluteURL(Http.Context.current().request(),
+                isSecure(request));
         return url.replace("?code=", ""); // chop off the empty param
     }
 
-
     public static F.Promise<Result> oauthCallback(String code) {
-        String url = "https://login.salesforce.com/services/oauth2/token";
+        String url = "https://test.salesforce.com/services/oauth2/token";
 
         F.Promise<WSResponse> ws = WS.url(url)
                 .setQueryParameter("grant_type", "authorization_code")
@@ -79,7 +78,7 @@ public class Secured extends Security.Authenticator {
 
     public static Result login() {
 
-        String url = "https://login.salesforce.com/services/oauth2/authorize?response_type=code" +
+        String url = "https://test.salesforce.com/services/oauth2/authorize?response_type=code" +
                 "&client_id=" + getConsumerKey() +
                 "&redirect_uri=" + getOauthCallbackUrl(Http.Context.current().request());
         return redirect(url);
